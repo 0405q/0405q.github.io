@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>王柯文 · 大二人工智能学生 · 个人简历</title>
+  <meta name="description" content="王柯文，陕西师范大学人工智能大二学生，GPA 3.97，专注于深度学习与计算机视觉。">
+  <meta name="author" content="王柯文">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --primary-50:#f7f9fc;--primary-100:#eef2f6;--primary-200:#dee5ed;--primary-300:#c5d0dd;
+      --primary-400:#a7b5c9;--primary-500:#8b9bb5;--primary-600:#6b7f9f;--primary-700:#556687;
+      --primary-800:#3f4c66;--primary-900:#2a3342;--accent-sage:#9ba88d;--accent-dust:#c2b2a8;
+      --accent-clay:#c5a18d;--accent-mist:#a7b9c4;--white:#fff;--off-white:#fafafa;
+      --light-gray:#f0f0f0;--mid-gray:#888;--dark-gray:#333;--black:#111;
+      --success:#7a9e7e;--warning:#d4a59a;--error:#c97c6b;--info:#7a9eb3;
+      --gradient-subtle:linear-gradient(135deg,#f5f7fa 0%,#eef2f6 100%);
+      --gradient-card:linear-gradient(145deg,#fff,#f8fafc);
+      --page-about-accent:#6b7f9f;--page-education-accent:#9ba88d;--page-competitions-accent:#c5a18d;
+      --page-projects-accent:#a7b9c4;--page-connect-accent:#d4a59a;
+      --font-primary:'Inter',sans-serif;--font-secondary:'Poppins',sans-serif;--font-mono:'JetBrains Mono',monospace;
+      --text-xs:.75rem;--text-sm:.875rem;--text-base:1rem;--text-md:1.125rem;--text-lg:1.25rem;
+      --text-xl:1.5rem;--text-2xl:1.875rem;--text-3xl:2.25rem;--text-4xl:3rem;--text-5xl:3.75rem;
+      --space-xs:.5rem;--space-sm:.8rem;--space-md:1.3rem;--space-lg:2rem;--space-xl:3.5rem;--space-2xl:5.5rem;
+      --radius-sm:4px;--radius-md:8px;--radius-lg:16px;--radius-xl:24px;--radius-full:9999px;
+      --shadow-sm:0 2px 4px rgba(0,0,0,.02);--shadow-md:0 4px 6px -1px rgba(0,0,0,.03);
+      --shadow-lg:0 10px 15px -3px rgba(0,0,0,.03);--shadow-xl:0 20px 25px -5px rgba(0,0,0,.03);
+      --transition:250ms cubic-bezier(.4,0,.2,1);--transition-slow:350ms cubic-bezier(.4,0,.2,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-primary);font-size:var(--text-base);line-height:1.6;color:var(--dark-gray);
+      background:var(--off-white);overflow-x:hidden;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    ul,ol{list-style:none}
+    button{font-family:inherit;cursor:pointer;border:none}
+
+    /* 粒子画布 - 置于底层，不阻挡点击 */
+    #particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+    /* 主容器 */
+    .app{position:relative;z-index:1;min-height:100vh;padding-bottom:80px}
+
+    /* 导航 */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:var(--space-md) var(--space-lg);
+      background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      box-shadow:var(--shadow-md);transition:var(--transition)}
+    .nav__container{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+    .nav__logo{font-family:var(--font-secondary);font-weight:700;font-size:var(--text-lg);color:var(--primary-800)}
+    .nav__links{display:flex;gap:var(--space-md)}
+    .nav__link{padding:var(--space-xs) var(--space-sm);font-size:var(--text-sm);font-weight:500;
+      color:var(--primary-700);border-radius:var(--radius-md);transition:var(--transition)}
+    .nav__link:hover,.nav__link.nav__link--active{background:var(--accent-sage);color:var(--white)}
+    .nav__toggle{display:none;padding:var(--space-sm);font-size:var(--text-xl);color:var(--primary-800)}
+
+    /* 底部导航(移动端) */
+    .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:1000;
+      background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:var(--space-sm) 0;
+      border-top:1px solid rgba(0,0,0,.05);box-shadow:0 -4px 20px rgba(0,0,0,.05)}
+    .bottom-nav__inner{display:flex;justify-content:space-around;max-width:500px;margin:0 auto}
+    .bottom-nav__link{display:flex;flex-direction:column;align-items:center;gap:2px;
+      padding:var(--space-xs);font-size:10px;color:var(--mid-gray);transition:var(--transition)}
+    .bottom-nav__link:hover,.bottom-nav__link.nav__link--active{color:var(--accent-sage)}
+    .bottom-nav__link i{font-size:18px}
+
+    .nav__links.nav__links--open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:rgba(255,255,255,.98);backdrop-filter:blur(10px);padding:var(--space-md);box-shadow:var(--shadow-lg);gap:var(--space-xs)}
+    @media(max-width:767px){
+      .nav__links{display:none}
+      .nav__toggle{display:flex}
+      .bottom-nav{display:block}
+    }
+
+    /* 页面容器 */
+    .page{display:none;padding:calc(60px + var(--space-xl)) var(--space-lg) var(--space-2xl);min-height:100vh}
+    .page.page--active{display:block;animation:pageIn .4s ease-out}
+    @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* 页面标题 */
+    .page__header{text-align:center;margin-bottom:var(--space-xl)}
+    .page__title{font-size:var(--text-3xl);color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .page__subtitle{color:var(--mid-gray);font-size:var(--text-base)}
+
+    /* 卡片 */
+    .card{background:rgba(255,255,255,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.5);border-radius:var(--radius-xl);
+      box-shadow:var(--shadow-md),inset 0 1px 2px rgba(255,255,255,.8);
+      padding:var(--space-xl);margin-bottom:var(--space-lg);transition:var(--transition-slow)}
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-xl),inset 0 1px 2px rgba(255,255,255,1)}
+
+    /* About 页 */
+    .hero{text-align:center;padding:var(--space-xl) 0}
+    .hero__avatar{width:120px;height:120px;margin:0 auto var(--space-lg);
+      background:linear-gradient(135deg,var(--accent-sage),var(--accent-mist));
+      border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:60px}
+    .hero__name{font-size:var(--text-4xl);color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .hero__title{font-size:var(--text-lg);color:var(--primary-600);margin-bottom:var(--space-sm)}
+    .hero__quote{font-style:italic;color:var(--mid-gray);margin-bottom:var(--space-lg);max-width:500px;margin-left:auto;margin-right:auto}
+    .hero__meta{display:flex;flex-wrap:wrap;gap:var(--space-md);justify-content:center;margin-bottom:var(--space-lg)}
+    .hero__meta-item{display:flex;align-items:center;gap:var(--space-xs);font-size:var(--text-sm);color:var(--mid-gray)}
+    .interest-cloud{display:flex;flex-wrap:wrap;gap:var(--space-sm);justify-content:center;margin:var(--space-lg) 0}
+    .interest-tag{padding:var(--space-xs) var(--space-md);background:var(--primary-100);
+      color:var(--primary-700);border-radius:var(--radius-full);font-size:var(--text-sm);transition:var(--transition)}
+    .interest-tag:hover{background:var(--accent-sage);color:var(--white);transform:scale(1.05)}
+    .lang-list{max-width:400px;margin:0 auto}
+    .lang-item{margin-bottom:var(--space-md)}
+    .lang-item__header{display:flex;justify-content:space-between;margin-bottom:var(--space-xs)}
+    .lang-item__bar{height:8px;background:var(--primary-200);border-radius:var(--radius-full);overflow:hidden}
+    .lang-item__fill{height:100%;background:linear-gradient(90deg,var(--accent-sage),var(--accent-mist));border-radius:var(--radius-full);transition:width 1s ease-out}
+
+    /* Education 页 */
+    .edu-timeline{max-width:700px;margin:0 auto}
+    .edu-card{margin-bottom:var(--space-xl)}
+    .edu-card__school{font-size:var(--text-xl);font-weight:600;color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .edu-card__meta{font-size:var(--text-sm);color:var(--mid-gray);margin-bottom:var(--space-md)}
+    .edu-card__gpa{display:flex;align-items:center;gap:var(--space-lg);margin-bottom:var(--space-md)}
+    .gpa-ring{width:70px;height:70px;position:relative;flex-shrink:0}
+    .gpa-ring svg{transform:rotate(-90deg)}
+    .gpa-ring circle{fill:none;stroke-width:6;transition:stroke-dashoffset 1s ease-out}
+    .gpa-ring .ring-bg{stroke:var(--primary-200)}
+    .gpa-ring .ring-fill{stroke:var(--accent-sage);stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:4.4}
+    .gpa-value{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-weight:700;font-size:var(--text-sm);color:var(--primary-800)}
+    .course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--space-sm);margin:var(--space-md) 0}
+    .course-tag{padding:var(--space-xs) var(--space-sm);background:var(--primary-100);color:var(--primary-700);
+      font-size:var(--text-xs);border-radius:var(--radius-sm);text-align:center}
+    .course-tag.highlight{border:1px solid var(--accent-sage);color:var(--accent-sage)}
+    .honor-list,.activity-list{padding-left:var(--space-md);margin-top:var(--space-sm)}
+    .honor-list li,.activity-list li{margin-bottom:var(--space-xs);font-size:var(--text-sm);color:var(--dark-gray)}
+
+    /* Competitions 页 */
+    .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--space-lg)}
+    .comp-card{position:relative}
+    .comp-card__award{position:absolute;top:var(--space-md);right:var(--space-md);
+      padding:var(--space-xs) var(--space-sm);background:var(--accent-clay);color:var(--white);
+      font-size:var(--text-xs);font-weight:600;border-radius:var(--radius-sm)}
+    .comp-card__name{font-size:var(--text-lg);color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .comp-card__project{font-size:var(--text-sm);color:var(--accent-sage);margin-bottom:var(--space-sm)}
+    .comp-card__desc{font-size:var(--text-sm);color:var(--mid-gray);margin-bottom:var(--space-md);line-height:1.5}
+    .comp-card__tags{display:flex;flex-wrap:wrap;gap:var(--space-xs);margin-bottom:var(--space-sm)}
+    .comp-tag{padding:2px var(--space-xs);background:var(--primary-100);color:var(--primary-700);font-size:10px;border-radius:var(--radius-sm);font-family:var(--font-mono)}
+    .comp-card__highlights{padding-left:var(--space-md);font-size:var(--text-xs);color:var(--success)}
+    .comp-stats{display:flex;justify-content:center;gap:var(--space-xl);margin-bottom:var(--space-xl);flex-wrap:wrap}
+    .comp-stat{text-align:center}
+    .comp-stat__num{font-size:var(--text-3xl);font-weight:700;color:var(--accent-sage)}
+    .comp-stat__label{font-size:var(--text-sm);color:var(--mid-gray)}
+
+    /* Projects 页 */
+    .proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--space-lg)}
+    .proj-card{overflow:hidden}
+    .proj-card__img{height:160px;background:linear-gradient(135deg,var(--primary-200),var(--accent-mist));
+      display:flex;align-items:center;justify-content:center;color:var(--primary-500);font-size:40px}
+    .proj-card__img.grad-1{background:linear-gradient(135deg,#a7b9c4,#9ba88d)}
+    .proj-card__img.grad-2{background:linear-gradient(135deg,#9ba88d,#c2b2a8)}
+    .proj-card__img.grad-3{background:linear-gradient(135deg,#c5a18d,#a7b9c4)}
+    .proj-card__img.grad-4{background:linear-gradient(135deg,#9ba88d,#c5a18d)}
+    .proj-card__body{padding:var(--space-lg)}
+    .proj-card__badge{display:inline-block;padding:2px var(--space-xs);background:var(--primary-200);color:var(--primary-700);
+      font-size:10px;border-radius:var(--radius-sm);margin-bottom:var(--space-xs)}
+    .proj-card__title{font-size:var(--text-lg);color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .proj-card__subtitle{font-size:var(--text-sm);color:var(--accent-sage);margin-bottom:var(--space-sm)}
+    .proj-card__desc{font-size:var(--text-sm);color:var(--mid-gray);margin-bottom:var(--space-md)}
+    .proj-card__tags{display:flex;flex-wrap:wrap;gap:var(--space-xs)}
+
+    /* Connect 页 */
+    .connect-card{max-width:500px;margin:0 auto;text-align:center}
+    .connect__avatar{width:100px;height:100px;margin:0 auto var(--space-md);
+      background:linear-gradient(135deg,var(--accent-sage),var(--accent-mist));border-radius:50%;
+      display:flex;align-items:center;justify-content:center;color:var(--white);font-size:48px}
+    .connect__name{font-size:var(--text-2xl);color:var(--primary-900);margin-bottom:var(--space-xs)}
+    .connect__title{font-size:var(--text-sm);color:var(--mid-gray);margin-bottom:var(--space-md)}
+    .connect__status{padding:var(--space-sm);background:rgba(122,158,126,.2);color:var(--success);
+      border-radius:var(--radius-md);font-size:var(--text-sm);margin-bottom:var(--space-lg)}
+    .social-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--space-md);margin:var(--space-xl) 0}
+    .social-card{padding:var(--space-md);background:var(--primary-50);border-radius:var(--radius-lg);text-align:center;transition:var(--transition)}
+    .social-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+    .social-card__icon{font-size:28px;margin-bottom:var(--space-sm)}
+    .social-card__name{font-weight:600;font-size:var(--text-sm);color:var(--primary-800);margin-bottom:2px}
+    .social-card__user{font-size:var(--text-xs);color:var(--mid-gray);margin-bottom:var(--space-xs)}
+    .social-card__stats{font-size:10px;color:var(--accent-sage)}
+    .contact-email{padding:var(--space-md);background:var(--primary-50);border-radius:var(--radius-md);
+      cursor:pointer;display:inline-flex;align-items:center;gap:var(--space-sm);margin-top:var(--space-md);
+      transition:var(--transition)}
+    .contact-email:hover{background:var(--primary-100)}
+
+    /* Toast */
+    .toast{position:fixed;bottom:var(--space-xl);left:50%;transform:translateX(-50%) translateY(100px);
+      padding:var(--space-md) var(--space-lg);background:var(--primary-900);color:var(--white);
+      border-radius:var(--radius-md);font-size:var(--text-sm);opacity:0;transition:var(--transition);z-index:3000}
+    .toast.toast--visible{transform:translateX(-50%) translateY(0);opacity:1}
+
+    /* 滚动进度条 */
+    .scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--accent-sage);z-index:1001;transition:width 50ms}
+
+    /* 响应式 */
+    @media(max-width:767px){
+      .page{padding:calc(80px + var(--space-lg)) var(--space-md) var(--space-xl)}
+      .page__title{font-size:var(--text-2xl)}
+      .comp-grid,.proj-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="scroll-progress" id="scrollProgress" style="width:0%"></div>
+
+  <nav class="nav">
+    <div class="nav__container">
+      <a href="#/" class="nav__logo">Meng Wen</a>
+      <button class="nav__toggle" id="navToggle" aria-label="菜单"><i class="fas fa-bars"></i></button>
+      <div class="nav__links">
+        <a href="#/" class="nav__link nav__link--active" data-page="about"><i class="fas fa-user"></i> 个人信息</a>
+        <a href="#/education" class="nav__link" data-page="education"><i class="fas fa-graduation-cap"></i> 教育</a>
+        <a href="#/competitions" class="nav__link" data-page="competitions"><i class="fas fa-trophy"></i> 竞赛</a>
+        <a href="#/projects" class="nav__link" data-page="projects"><i class="fas fa-code-branch"></i> 项目</a>
+        <a href="#/connect" class="nav__link" data-page="connect"><i class="fas fa-address-card"></i> 联系</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="bottom-nav">
+    <div class="bottom-nav__inner">
+      <a href="#/" class="bottom-nav__link nav__link--active" data-page="about"><i class="fas fa-user"></i><span>首页</span></a>
+      <a href="#/education" class="bottom-nav__link" data-page="education"><i class="fas fa-graduation-cap"></i><span>教育</span></a>
+      <a href="#/competitions" class="bottom-nav__link" data-page="competitions"><i class="fas fa-trophy"></i><span>竞赛</span></a>
+      <a href="#/projects" class="bottom-nav__link" data-page="projects"><i class="fas fa-code-branch"></i><span>项目</span></a>
+      <a href="#/connect" class="bottom-nav__link" data-page="connect"><i class="fas fa-address-card"></i><span>联系</span></a>
+    </div>
+  </div>
+
+  <main class="app">
+    <!-- Page: About -->
+    <section id="page-about" class="page page--active">
+      <div class="page__header">
+        <h1 class="page__title">个人信息</h1>
+        <p class="page__subtitle">About Me</p>
+      </div>
+      <div class="card" style="max-width:700px;margin:0 auto">
+        <div class="hero">
+          <div class="hero__avatar"><i class="fas fa-user-circle"></i></div>
+          <h2 class="hero__name">王柯文 <span style="font-weight:400;font-size:var(--text-xl);color:var(--primary-600)">Meng Wen</span></h2>
+          <p class="hero__title">人工智能 · 24级</p>
+          <p class="hero__quote">热爱创造，追求卓越 — 用代码连接想象与现实</p>
+          <div class="hero__meta">
+            <span class="hero__meta-item"><i class="fas fa-map-marker-alt"></i> 西安，中国</span>
+            <span class="hero__meta-item"><i class="fas fa-envelope"></i> wangkw@snnu.edu.cn</span>
+          </div>
+        </div>
+        <p style="text-align:center;color:var(--dark-gray);line-height:1.8;margin:var(--space-lg) 0">陕西师范大学人工智能专业在校生，专注于深度学习与计算机视觉。</p>
+        <div class="interest-cloud">
+          <span class="interest-tag">机器学习</span><span class="interest-tag">深度学习</span>
+          <span class="interest-tag">计算机视觉</span><span class="interest-tag">web开发</span>
+        </div>
+        <h3 style="font-size:var(--text-md);color:var(--primary-800);margin-bottom:var(--space-md);text-align:center">语言能力</h3>
+        <div class="lang-list">
+          <div class="lang-item"><div class="lang-item__header"><span>中文</span><span>母语</span></div><div class="lang-item__bar"><div class="lang-item__fill" style="width:100%"></div></div></div>
+          <div class="lang-item"><div class="lang-item__header"><span>英语</span><span>流利 (CET-4 ***)</span></div><div class="lang-item__bar"><div class="lang-item__fill" style="width:75%"></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page: Education -->
+    <section id="page-education" class="page">
+      <div class="page__header">
+        <h1 class="page__title">教育背景</h1>
+        <p class="page__subtitle">Education & Achievements</p>
+      </div>
+      <div class="edu-timeline">
+        <div class="card edu-card">
+          <h3 class="edu-card__school">陕西师范大学 (Shaannxi Normal University)</h3>
+          <p class="edu-card__meta">西安，中国 · 工学学士 · 人工智能 · 2024 - 2028 (预期)</p>
+          <div class="edu-card__gpa">
+            <div class="gpa-ring"><svg width="70" height="70" viewBox="0 0 70 70"><circle class="ring-bg" cx="35" cy="35" r="32"/><circle class="ring-fill" cx="35" cy="35" r="32" data-gpa="3.97"/></svg><span class="gpa-value">3.97</span></div>
+            <div><p style="font-weight:600;color:var(--primary-800)">GPA 3.97/5.0</p><p style="font-size:var(--text-sm);color:var(--mid-gray)">专业前3%</p></div>
+          </div>
+          <h4 style="font-size:var(--text-sm);color:var(--primary-700);margin-bottom:var(--space-sm)">主修课程</h4>
+          <div class="course-grid">
+            <span class="course-tag">数据结构 93</span><span class="course-tag highlight">高等数学 100</span>
+            <span class="course-tag highlight">概率论与数理统计 97</span><span class="course-tag highlight">离散数学 97</span>
+            <span class="course-tag highlight">人工智能导论 96</span><span class="course-tag">面向对象程序设计 95</span>
+            <span class="course-tag">c语言程序设计 93</span><span class="course-tag highlight">python语言程序设计 96</span>
+          </div>
+          <h4 style="font-size:var(--text-sm);color:var(--primary-700);margin-top:var(--space-md)">荣誉奖项</h4>
+          <ul class="honor-list"><li>国家励志奖学金 (2024-2025)</li><li>陕西师范大学一等奖学金 (2024-2025)</li></ul>
+          <h4 style="font-size:var(--text-sm);color:var(--primary-700);margin-top:var(--space-md)">校园活动</h4>
+          <ul class="activity-list"><li>计算机科学技术协会 技术部负责人</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Page: Competitions -->
+    <section id="page-competitions" class="page">
+      <div class="page__header">
+        <h1 class="page__title">竞赛经历</h1>
+        <p class="page__subtitle">Competitions & Awards</p>
+      </div>
+      <div class="comp-stats">
+        <div class="comp-stat"><span class="comp-stat__num">2</span><span class="comp-stat__label">参赛总数</span></div>
+        <div class="comp-stat"><span class="comp-stat__num">0</span><span class="comp-stat__label">国家级奖项</span></div>
+        <div class="comp-stat"><span class="comp-stat__num">2</span><span class="comp-stat__label">省级奖项</span></div>
+        <div class="comp-stat"><span class="comp-stat__num">1</span><span class="comp-stat__label">软著</span></div>
+        <div class="comp-stat"><span class="comp-stat__num">0</span><span class="comp-stat__label">专利</span></div>
+      </div>
+      <div class="comp-grid" id="compGrid"></div>
+    </section>
+
+    <!-- Page: Projects -->
+    <section id="page-projects" class="page">
+      <div class="page__header">
+        <h1 class="page__title">项目经历</h1>
+        <p class="page__subtitle">Selected Projects</p>
+      </div>
+      <div class="proj-grid" id="projGrid"></div>
+    </section>
+
+    <!-- Page: Connect -->
+    <section id="page-connect" class="page">
+      <div class="page__header">
+        <h1 class="page__title">社交卡片</h1>
+        <p class="page__subtitle">Get in Touch</p>
+      </div>
+      <div class="card connect-card">
+        <div class="connect__avatar"><i class="fas fa-user-circle"></i></div>
+        <h2 class="connect__name">王柯文</h2>
+        <p class="connect__title">人工智能大二学生 · 开发者 · 创造者</p>
+        <div class="social-grid" id="socialGrid"></div>
+        <div class="contact-email" id="copyEmail" data-email="wangkw@snnu.edu.cn"><i class="fas fa-copy"></i> wangkw@snnu.edu.cn <span style="font-size:var(--text-xs);color:var(--mid-gray)">(点击复制)</span></div>
+        <p style="font-size:var(--text-sm);color:var(--mid-gray);margin-top:var(--space-md)"><i class="fas fa-map-marker-alt"></i> 西安 · 中国 · 24小时内回复</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">已复制到剪贴板</div>
+
+  <script>
+  (function(){
+    'use strict';
+
+    const PAGE_COLORS = {'about':['#6B7F9F','#8B9BB5'],'education':['#9BA88D','#B5C0A8'],'competitions':['#C5A18D','#D6B5A8'],'projects':['#A7B9C4','#BDCDD6'],'connect':['#D4A59A','#E8C5BC']};
+
+    const COMPETITIONS = [
+      {name:'全国大学生数学建模竞赛',award:'省级一等奖',project:'C题 NIPT的时点选择与胎儿的异常判定',role:'队员、代码编写',date:'2025.09',desc:'基于优化模型和回归模型的 NIPT 时点选择与胎儿异常判定问题',highlights:[''],tech:['K-means聚类','Logistic Regression','Random Forest']},
+      {name:'全国大学生数学竞赛',award:'省级一等奖',project:'',role:'参赛选手',date:'2025.11',desc:'系统学习高等数学、线性代数等知识，完成大量竞赛真题训练，逻辑推理与复杂问题求解能力。',highlights:[' 扎实的数学基础与逻辑思维 ',' 较强的抽象推导与计算能力 '],tech:['高等数学','线性代数']},
+      {name:'基于交叉验证的软件缺陷预测系统',award:'软著',project:'',role:'第一著作权',date:'2025.07',desc:'构建一套完整的软件缺陷预测分析框架',highlights:['整合多种交叉验证方法与经典分类模型','为软件缺陷预测提供科学、高效的分析工具'],tech:['Cross-Validation']}
+    ];
+
+    const PROJECTS = [
+      {title:'MindMap AI',subtitle:'智能学习助手',desc:'基于大语言模型的智能学习助手，自动生成知识图谱和复习提纲。支持多模态输入和实时协作。',tags:['React','Next.js','OpenAI API','TailwindCSS','D3.js'],year:'2024',status:'进行中',grad:'grad-1',github:'https://github.com/leochen/mindmap-ai',demo:'https://mindmap-ai.vercel.app'},
+      {title:'EcoTrack',subtitle:'碳足迹追踪应用',desc:'碳足迹追踪移动应用，通过分析用户行为数据提供个性化减排建议。',tags:['Flutter','Firebase','TensorFlow Lite','Dart','GetX'],year:'2023',status:'已上线',grad:'grad-2',github:'https://github.com/leochen/ecotrack',demo:'https://ecotrack.app'},
+      {title:'Portfolio 4.0',subtitle:'作品集生成器',desc:'个人作品集网站生成器，支持动态主题切换和拖拽式布局。目前已开源并获得200+ star。',tags:['Vue 3','Vite','D3.js','Node.js','Pinia'],year:'2024',status:'维护中',grad:'grad-3',github:'https://github.com/leochen/portfolio-generator',demo:'https://portfolio-gen.dev'},
+      {title:'Campus Connect',subtitle:'校园社交平台',desc:'基于地理位置的校园活动发布和参与平台，服务浙大5000+学生。',tags:['React Native','Node.js','MongoDB','Socket.io','Redis'],year:'2024',status:'开发中',grad:'grad-4',github:'https://github.com/leochen/campus-connect',demo:'https://campus-connect.app'}
+    ];
+
+    const SOCIAL = [
+      {platform:'GitHub',user:'@0405q',url:'https://github.com/0405q',icon:'fab fa-github',color:'#333'}
+    ];
+
+    let currentPage = 'about';
+    const particleCount = (navigator.hardwareConcurrency || 4) >= 8 ? 120 : (navigator.hardwareConcurrency || 4) >= 4 ? 80 : 50;
+
+    function getPageFromPath(){
+      if(location.protocol==='file:'){
+        const hash = location.hash.slice(1) || '/';
+        const path = (hash==='/'||hash==='') ? 'about' : hash.replace(/^\/+/,'');
+        return ['about','education','competitions','projects','connect'].includes(path) ? path : 'about';
+      }
+      let path = (location.pathname||'/').replace(/^\/+|\/+$/g,'') || '';
+      if(!path||path==='about') return 'about';
+      return ['education','competitions','projects','connect'].includes(path) ? path : 'about';
+    }
+
+    function navigate(page){
+      currentPage = page;
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('page--active'));
+      const el = document.getElementById('page-'+page);
+      if(el) el.classList.add('page--active');
+      document.querySelectorAll('.nav__link,.bottom-nav__link').forEach(l=>{
+        l.classList.toggle('nav__link--active',l.dataset.page===page);
+      });
+      const colors = PAGE_COLORS[page] || PAGE_COLORS.about;
+      if(window.particleSystem) window.particleSystem.setColors(colors);
+      if(location.protocol==='file:'){
+        const url = page==='about' ? '#/' : '#/'+page;
+        if(location.hash !== url) location.hash = url;
+      } else {
+        const path = page==='about' ? '/' : '/'+page;
+        if(location.pathname !== path) history.pushState(null,'',path);
+      }
+    }
+
+    function initRouter(){
+      navigate(getPageFromPath());
+      window.addEventListener('hashchange',()=>navigate(getPageFromPath()));
+      window.addEventListener('popstate',()=>navigate(getPageFromPath()));
+      document.querySelectorAll('[data-page]').forEach(l=>{
+        l.addEventListener('click',e=>{
+          e.preventDefault();
+          navigate(l.dataset.page);
+          if(location.protocol==='file:') location.hash = l.dataset.page==='about' ? '/' : '/'+l.dataset.page;
+        });
+      });
+    }
+
+    function renderCompetitions(){
+      const grid = document.getElementById('compGrid');
+      grid.innerHTML = COMPETITIONS.map(c=>`<div class="card comp-card">
+        <span class="comp-card__award">${c.award}</span>
+        <h3 class="comp-card__name">${c.name}</h3>
+        ${c.project?`<p class="comp-card__project">${c.project} · ${c.role}</p>`:`<p class="comp-card__project">${c.role}</p>`}
+        <p class="comp-card__desc">${c.desc}</p>
+        <div class="comp-card__tags">${c.tech.map(t=>`<span class="comp-tag">${t}</span>`).join('')}</div>
+        ${c.highlights.length?`<ul class="comp-card__highlights">${c.highlights.map(h=>`<li>${h}</li>`).join('')}</ul>`:''}
+      </div>`).join('');
+    }
+
+    function renderProjects(){
+      const grid = document.getElementById('projGrid');
+      const icons = ['fa-brain','fa-leaf','fa-palette','fa-users'];
+      grid.innerHTML = PROJECTS.map((p,i)=>`<div class="card proj-card">
+        <div class="proj-card__img ${p.grad}"><i class="fas ${icons[i]}"></i></div>
+        <div class="proj-card__body">
+          <span class="proj-card__badge">${p.year} · ${p.status}</span>
+          <h3 class="proj-card__title">${p.title}</h3>
+          <p class="proj-card__subtitle">${p.subtitle}</p>
+          <p class="proj-card__desc">${p.desc}</p>
+          <div class="proj-card__tags">${p.tags.map(t=>`<span class="comp-tag">${t}</span>`).join('')}</div>
+          <div style="margin-top:var(--space-md)">
+            <a href="${p.github}" target="_blank" rel="noopener" style="font-size:var(--text-xs);color:var(--accent-sage);margin-right:var(--space-md)"><i class="fab fa-github"></i> GitHub</a>
+            <a href="${p.demo}" target="_blank" rel="noopener" style="font-size:var(--text-xs);color:var(--accent-sage)"><i class="fas fa-external-link-alt"></i> Demo</a>
+          </div>
+        </div>
+      </div>`).join('');
+    }
+
+    function renderSocial(){
+      document.getElementById('socialGrid').innerHTML = SOCIAL.map(s=>`<a href="${s.url}" target="_blank" rel="noopener" class="social-card" style="border-left:4px solid ${s.color}">
+        <div class="social-card__icon" style="color:${s.color}"><i class="${s.icon}"></i></div>
+        <div class="social-card__name">${s.platform}</div>
+        <div class="social-card__user">${s.user}</div>
+        <div class="social-card__stats">${s.stats}</div>
+      </a>`).join('');
+    }
+
+    document.getElementById('copyEmail').addEventListener('click',async ()=>{
+      const email = document.getElementById('copyEmail').dataset.email;
+      try{ await navigator.clipboard.writeText(email); }catch(e){ const i=document.createElement('input');i.value=email;document.body.appendChild(i);i.select();document.execCommand('copy');document.body.removeChild(i); }
+      document.getElementById('toast').classList.add('toast--visible');
+      setTimeout(()=>document.getElementById('toast').classList.remove('toast--visible'),2000);
+    });
+
+    window.addEventListener('scroll',()=>{
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      document.getElementById('scrollProgress').style.width = h>0 ? (window.scrollY/h*100)+'%' : '0%';
+    });
+
+    document.getElementById('navToggle').addEventListener('click',()=>{
+      document.querySelector('.nav__links').classList.toggle('nav__links--open');
+    });
+
+    renderCompetitions(); renderProjects(); renderSocial();
+    initRouter();
+
+    const circ = 2*Math.PI*32;
+    document.querySelectorAll('.ring-fill').forEach(c=>{
+      const gpa = parseFloat(c.dataset.gpa)||3.97;
+      c.style.strokeDasharray = circ;
+      c.style.strokeDashoffset = circ - (gpa/5)*circ;
+    });
+
+    function ParticleSystem(canvas){
+      const ctx = canvas.getContext('2d');
+      let w = canvas.width = window.innerWidth, h = canvas.height = window.innerHeight;
+      let particles = [], explosions = [];
+      let colors = PAGE_COLORS.about;
+      let mouse = {x:null,y:null};
+
+      function Particle(x,y){
+        this.x=x;this.y=y;this.vx=(Math.random()-0.5)*0.5;this.vy=(Math.random()-0.5)*0.5;
+        this.r=Math.random()*2+1;this.color=colors[Math.floor(Math.random()*colors.length)];
+      }
+      Particle.prototype.update = function(){
+        this.x+=this.vx;this.y+=this.vy;
+        if(this.x<0||this.x>w)this.vx*=-1;
+        if(this.y<0||this.y>h)this.vy*=-1;
+      };
+      Particle.prototype.draw = function(){
+        ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+        ctx.fillStyle=this.color;ctx.globalAlpha=0.6;ctx.fill();ctx.globalAlpha=1;
+      };
+
+      function ExplosionParticle(x,y){
+        const angle = Math.random()*Math.PI*2, speed = 2+Math.random()*6;
+        this.x=x;this.y=y;this.vx=Math.cos(angle)*speed;this.vy=Math.sin(angle)*speed;
+        this.r=4+Math.random()*8;this.life=1;this.color=colors[Math.floor(Math.random()*colors.length)];
+      }
+      ExplosionParticle.prototype.update = function(){
+        this.x+=this.vx;this.y+=this.vy;this.vy+=0.05;this.vx*=0.98;this.vy*=0.98;
+        this.life-=0.012;
+      };
+      ExplosionParticle.prototype.draw = function(){
+        ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+        ctx.fillStyle=this.color;ctx.globalAlpha=this.life;ctx.fill();ctx.globalAlpha=1;
+      };
+
+      for(let i=0;i<particleCount;i++) particles.push(new Particle(Math.random()*w,Math.random()*h));
+
+      function triggerExplosion(clientX,clientY){
+        const rect = canvas.getBoundingClientRect();
+        const x = clientX - rect.left, y = clientY - rect.top;
+        if(x>=0&&x<=w&&y>=0&&y<=h) for(let i=0;i<30;i++) explosions.push(new ExplosionParticle(x,y));
+      }
+      document.addEventListener('click',e=>triggerExplosion(e.clientX,e.clientY));
+
+      this.setColors = c=>{ colors = c; };
+      window.addEventListener('resize',()=>{ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; });
+
+      function animate(){
+        ctx.clearRect(0,0,w,h);
+        particles.forEach(p=>{ p.update(); p.draw(); });
+        for(let i=0;i<particles.length;i++)
+          for(let j=i+1;j<particles.length;j++){
+            const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+            if(dx*dx+dy*dy<150*150){ ctx.beginPath(); ctx.moveTo(particles[i].x,particles[i].y); ctx.lineTo(particles[j].x,particles[j].y); ctx.strokeStyle=colors[0]; ctx.globalAlpha=0.15; ctx.lineWidth=1; ctx.stroke(); ctx.globalAlpha=1; }
+          }
+        explosions = explosions.filter(ep=>{ ep.update(); ep.draw(); return ep.life>0; });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    window.particleSystem = new ParticleSystem(document.getElementById('particle-canvas'));
+  })();
+  </script>
+</body>
+</html>
